@@ -72,7 +72,11 @@ export default function About() {
           whileInView="visible"
           viewport={{ once: true }}
         >
-          <div className="relative h-96 w-full rounded-lg overflow-hidden shadow-xl">
+          <motion.div 
+            className="relative h-96 w-full rounded-lg overflow-hidden shadow-xl"
+            whileHover={{ scale: 1.02, rotateY: 5 }}
+            transition={{ duration: 0.3 }}
+          >
             <Image
               src="/images/cabin-interior.jpg"
               alt="Cabin interior"
@@ -83,7 +87,34 @@ export default function About() {
               priority
             />
             <div className="absolute inset-0 bg-black/10" />
-          </div>
+            
+            {/* Floating elements */}
+            <motion.div
+              className="absolute top-4 right-4 w-3 h-3 bg-amber-200/60 rounded-full"
+              animate={{
+                y: [0, -10, 0],
+                opacity: [0.6, 1, 0.6]
+              }}
+              transition={{
+                duration: 3,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+            />
+            <motion.div
+              className="absolute bottom-6 left-6 w-2 h-2 bg-[#2f6310]/60 rounded-full"
+              animate={{
+                y: [0, -8, 0],
+                opacity: [0.6, 1, 0.6]
+              }}
+              transition={{
+                duration: 4,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: 1
+              }}
+            />
+          </motion.div>
         </motion.div>
         
         <motion.div 
@@ -98,7 +129,15 @@ export default function About() {
             className="hidden md:block md:w-1/2 mb-10 md:mb-0 md:pr-10"
             variants={itemVariants}
           >
-            <div className="relative h-96 w-full rounded-lg overflow-hidden shadow-xl">
+            <motion.div 
+              className="relative h-96 w-full rounded-lg overflow-hidden shadow-xl"
+              whileHover={{ 
+                scale: 1.05, 
+                rotateY: 8,
+                boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.5)"
+              }}
+              transition={{ duration: 0.4, ease: "easeOut" }}
+            >
               <Image
                 src="/images/cabin-interior.jpg"
                 alt="Cabin interior"
@@ -109,75 +148,200 @@ export default function About() {
                 priority
               />
               <div className="absolute inset-0 bg-black/10" />
-            </div>
+              
+              {/* Enhanced floating elements */}
+              <motion.div
+                className="absolute top-4 right-4 w-3 h-3 bg-amber-200/60 rounded-full"
+                animate={{
+                  y: [0, -10, 0],
+                  opacity: [0.6, 1, 0.6],
+                  scale: [1, 1.2, 1]
+                }}
+                transition={{
+                  duration: 3,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+              />
+              <motion.div
+                className="absolute bottom-6 left-6 w-2 h-2 bg-[#2f6310]/60 rounded-full"
+                animate={{
+                  y: [0, -8, 0],
+                  opacity: [0.6, 1, 0.6],
+                  scale: [1, 1.3, 1]
+                }}
+                transition={{
+                  duration: 4,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                  delay: 1
+                }}
+              />
+              <motion.div
+                className="absolute top-1/2 left-4 w-1.5 h-1.5 bg-amber-100/50 rounded-full"
+                animate={{
+                  x: [0, 5, 0],
+                  opacity: [0.5, 1, 0.5]
+                }}
+                transition={{
+                  duration: 5,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                  delay: 2
+                }}
+              />
+            </motion.div>
           </motion.div>
           
           <motion.div 
             className="w-full md:w-1/2"
             variants={itemVariants}
           >
-            {/* Decorative wood grain divider above title */}
-            <div className="w-24 h-2 mb-6 relative">
+            {/* Enhanced Decorative wood grain divider above title */}
+            <motion.div 
+              className="w-24 h-2 mb-6 relative"
+              initial={{ scaleX: 0 }}
+              whileInView={{ scaleX: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 1, ease: "easeOut" }}
+            >
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#8B5A2B] to-transparent opacity-60 rounded-full"></div>
-            </div>
+              <motion.div 
+                className="absolute inset-0 bg-gradient-to-r from-transparent via-amber-200/20 to-transparent opacity-40 rounded-full"
+                animate={{
+                  opacity: [0.4, 0.8, 0.4]
+                }}
+                transition={{
+                  duration: 3,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+              />
+            </motion.div>
 
-            <h2 className="text-3xl md:text-4xl font-serif font-bold text-amber-100 mb-6 [text-shadow:_0_4px_24px_rgba(0,0,0,0.9)]">
+            <motion.h2 
+              className="text-3xl md:text-4xl font-serif font-bold text-amber-100 mb-6 [text-shadow:_0_4px_24px_rgba(0,0,0,0.9)]"
+              whileInView={{
+                backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"]
+              }}
+              transition={{
+                duration: 3,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+            >
               Un Refugiu în Inima Pădurii
-            </h2>
-            <p className="text-amber-50/90 mb-6 [text-shadow:_0_2px_8px_rgba(0,0,0,0.8)]">
+            </motion.h2>
+            
+            <motion.p 
+              className="text-amber-50/90 mb-6 [text-shadow:_0_2px_8px_rgba(0,0,0,0.8)] leading-relaxed"
+              variants={itemVariants}
+            >
               Ascunsă printre brazi înalți și priveliști spectaculoase asupra munților, cabana noastră de lux oferă 
               scăparea perfectă de agitația vieții de zi cu zi. Fiecare detaliu a fost atent ales pentru a oferi o 
               experiență de neuitat care îmbina farmecul rustic cu confortul modern.
-            </p>
+            </motion.p>
+            
             <div className="grid grid-cols-2 gap-6 mt-8">
               <motion.div 
-                className="flex items-start"
+                className="flex items-start group"
                 variants={itemVariants}
+                whileHover={{ x: 5 }}
+                transition={{ duration: 0.2 }}
               >
-                <div className="text-[#D4AF37] mr-4 mt-1">
+                <motion.div 
+                  className="text-[#D4AF37] mr-4 mt-1"
+                  whileHover={{ 
+                    scale: 1.2, 
+                    rotate: 360,
+                    color: "#FFD700"
+                  }}
+                  transition={{ duration: 0.3 }}
+                >
                   <FaStar className="w-6 h-6" />
-                </div>
+                </motion.div>
                 <div>
-                  <h3 className="font-semibold text-amber-100">Cazare de Lux</h3>
+                  <h3 className="font-semibold text-amber-100 group-hover:text-amber-50 transition-colors">Cazare de Lux</h3>
                   <p className="text-sm text-amber-50/80">Interioare lucrate manual cu finisaje premium</p>
                 </div>
               </motion.div>
               
               <motion.div 
-                className="flex items-start"
+                className="flex items-start group"
                 variants={itemVariants}
+                whileHover={{ x: 5 }}
+                transition={{ duration: 0.2 }}
               >
-                <div className="text-[#D4AF37] mr-4 mt-1">
+                <motion.div 
+                  className="text-[#D4AF37] mr-4 mt-1"
+                  whileHover={{ 
+                    scale: 1.2,
+                    color: "#FFD700"
+                  }}
+                  animate={{
+                    rotate: [0, 360]
+                  }}
+                  transition={{ 
+                    rotate: { duration: 20, repeat: Infinity, ease: "linear" },
+                    scale: { duration: 0.3 }
+                  }}
+                >
                   <FaClock className="w-6 h-6" />
-                </div>
+                </motion.div>
                 <div>
-                  <h3 className="font-semibold text-amber-100">Deschis Tot Anul</h3>
+                  <h3 className="font-semibold text-amber-100 group-hover:text-amber-50 transition-colors">Deschis Tot Anul</h3>
                   <p className="text-sm text-amber-50/80">Frumusețe în fiecare anotimp</p>
                 </div>
               </motion.div>
               
               <motion.div 
-                className="flex items-start"
+                className="flex items-start group"
                 variants={itemVariants}
+                whileHover={{ x: 5 }}
+                transition={{ duration: 0.2 }}
               >
-                <div className="text-[#D4AF37] mr-4 mt-1">
+                <motion.div 
+                  className="text-[#D4AF37] mr-4 mt-1"
+                  whileHover={{ 
+                    scale: 1.2,
+                    color: "#FFD700"
+                  }}
+                  animate={{
+                    scale: [1, 1.1, 1]
+                  }}
+                  transition={{ 
+                    duration: 2, 
+                    repeat: Infinity, 
+                    ease: "easeInOut" 
+                  }}
+                >
                   <FaGlobeAmericas className="w-6 h-6" />
-                </div>
+                </motion.div>
                 <div>
-                  <h3 className="font-semibold text-amber-100">Locație Izolată</h3>
+                  <h3 className="font-semibold text-amber-100 group-hover:text-amber-50 transition-colors">Locație Izolată</h3>
                   <p className="text-sm text-amber-50/80">Confidențialitate și liniște garantate</p>
                 </div>
               </motion.div>
               
               <motion.div 
-                className="flex items-start"
+                className="flex items-start group"
                 variants={itemVariants}
+                whileHover={{ x: 5 }}
+                transition={{ duration: 0.2 }}
               >
-                <div className="text-[#D4AF37] mr-4 mt-1">
+                <motion.div 
+                  className="text-[#D4AF37] mr-4 mt-1"
+                  whileHover={{ 
+                    scale: 1.2, 
+                    rotate: 90,
+                    color: "#FFD700"
+                  }}
+                  transition={{ duration: 0.3 }}
+                >
                   <FaPlus className="w-6 h-6" />
-                </div>
+                </motion.div>
                 <div>
-                  <h3 className="font-semibold text-amber-100">Activități Nenumărate</h3>
+                  <h3 className="font-semibold text-amber-100 group-hover:text-amber-50 transition-colors">Activități Nenumărate</h3>
                   <p className="text-sm text-amber-50/80">Drumeții, pescuit și multe altele</p>
                 </div>
               </motion.div>

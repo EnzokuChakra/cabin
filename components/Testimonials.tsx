@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import Image from 'next/image';
+import ParticlesBackground from './ParticlesBackground';
 
 interface GoogleReview {
   author_name: string;
@@ -35,13 +36,19 @@ Un loc de rasfat si relaxare!!! ❤️❤️❤️`,
 ];
 
 const Star = ({ filled }: { filled: boolean }) => (
-  <svg
+  <motion.svg
     className={`w-5 h-5 ${filled ? 'text-[#FFD700]' : 'text-amber-50/30'}`}
     fill="currentColor"
     viewBox="0 0 20 20"
+    whileHover={{ 
+      scale: 1.2, 
+      rotate: 360,
+      color: filled ? "#FFA500" : undefined
+    }}
+    transition={{ duration: 0.3 }}
   >
     <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-  </svg>
+  </motion.svg>
 );
 
 const TestimonialCard = ({ testimonial, index, isGoogleReview = false }: { 
@@ -65,42 +72,122 @@ const TestimonialCard = ({ testimonial, index, isGoogleReview = false }: {
       initial={{ opacity: 0, y: 20 }}
       animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
       transition={{ duration: 0.4, delay: index * 0.1 }}
-      className="bg-[#1A1A1A]/80 backdrop-blur-sm p-8 rounded-lg border border-[#2A2A2A] relative overflow-hidden"
+      whileHover={{ 
+        y: -10,
+        scale: 1.02,
+        rotateY: 5,
+        boxShadow: "0 25px 50px rgba(0, 0, 0, 0.4)"
+      }}
+      className="bg-[#1A1A1A]/80 backdrop-blur-sm p-8 rounded-lg border border-[#2A2A2A] relative overflow-hidden group cursor-pointer"
       style={{
         boxShadow: '0 4px 20px rgba(0, 0, 0, 0.3)',
         background: 'linear-gradient(135deg, rgba(32, 32, 32, 0.9) 0%, rgba(24, 24, 24, 0.8) 100%)'
       }}
     >
-      <div className="flex mb-4">
+      {/* Animated background glow */}
+      <motion.div
+        className="absolute inset-0 bg-gradient-to-r from-[#2f6310]/5 via-transparent to-[#2f6310]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+        animate={{
+          x: ['-100%', '100%']
+        }}
+        transition={{
+          duration: 3,
+          repeat: Infinity,
+          ease: "easeInOut"
+        }}
+      />
+
+      <motion.div 
+        className="flex mb-4 relative z-10"
+        initial={{ opacity: 0 }}
+        animate={inView ? { opacity: 1 } : { opacity: 0 }}
+        transition={{ duration: 0.6, delay: index * 0.1 + 0.2 }}
+      >
         {[...Array(5)].map((_, i) => (
           <Star key={i} filled={i < rating} />
         ))}
-      </div>
-      <p 
-        className="text-amber-50/90 italic mb-6 [text-shadow:_0_2px_8px_rgba(0,0,0,0.8)]" 
+      </motion.div>
+      
+      <motion.p 
+        className="text-amber-50/90 italic mb-6 [text-shadow:_0_2px_8px_rgba(0,0,0,0.8)] relative z-10 group-hover:text-amber-50 transition-colors" 
         dangerouslySetInnerHTML={{ __html: `"${quote.replace(/\n/g, '<br />')}"` }}
+        initial={{ opacity: 0 }}
+        animate={inView ? { opacity: 1 } : { opacity: 0 }}
+        transition={{ duration: 0.6, delay: index * 0.1 + 0.3 }}
       />
-      <div className="flex items-center">
+      
+      <motion.div 
+        className="flex items-center relative z-10"
+        initial={{ opacity: 0, x: -20 }}
+        animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
+        transition={{ duration: 0.6, delay: index * 0.1 + 0.4 }}
+      >
         {profilePhoto ? (
-          <Image 
-            src={profilePhoto} 
-            alt={author}
-            width={40}
-            height={40}
-            className="w-10 h-10 rounded-full mr-4 border-2 border-amber-200/30 object-cover"
-          />
+          <motion.div
+            whileHover={{ scale: 1.1, rotate: 5 }}
+            transition={{ duration: 0.2 }}
+          >
+            <Image 
+              src={profilePhoto} 
+              alt={author}
+              width={40}
+              height={40}
+              className="w-10 h-10 rounded-full mr-4 border-2 border-amber-200/30 object-cover"
+            />
+          </motion.div>
         ) : (
-          <div className="bg-[#FFD700]/20 w-10 h-10 rounded-full flex items-center justify-center text-amber-50/90 font-bold mr-4 border border-amber-200/30">
+          <motion.div 
+            className="bg-[#FFD700]/20 w-10 h-10 rounded-full flex items-center justify-center text-amber-50/90 font-bold mr-4 border border-amber-200/30"
+            whileHover={{ 
+              scale: 1.1, 
+              backgroundColor: "rgba(255, 215, 0, 0.3)",
+              rotate: 360
+            }}
+            transition={{ duration: 0.3 }}
+          >
             {author.charAt(0)}
-          </div>
+          </motion.div>
         )}
         <div>
-          <p className="font-semibold text-amber-100">{author}</p>
+          <motion.p 
+            className="font-semibold text-amber-100 group-hover:text-amber-50 transition-colors"
+            whileHover={{ x: 5 }}
+            transition={{ duration: 0.2 }}
+          >
+            {author}
+          </motion.p>
           {isGoogleReview && (
             <p className="text-sm text-amber-50/60">Google Review</p>
           )}
         </div>
-      </div>
+      </motion.div>
+
+      {/* Floating particles inside cards */}
+      <motion.div
+        className="absolute top-2 right-2 w-1 h-1 bg-amber-200/40 rounded-full"
+        animate={{
+          y: [0, -10, 0],
+          opacity: [0.4, 1, 0.4]
+        }}
+        transition={{
+          duration: 2 + index * 0.3,
+          repeat: Infinity,
+          ease: "easeInOut"
+        }}
+      />
+      <motion.div
+        className="absolute bottom-4 left-4 w-0.5 h-0.5 bg-[#2f6310]/60 rounded-full"
+        animate={{
+          x: [0, 5, 0],
+          opacity: [0.6, 1, 0.6]
+        }}
+        transition={{
+          duration: 3 + index * 0.2,
+          repeat: Infinity,
+          ease: "easeInOut",
+          delay: index * 0.5
+        }}
+      />
     </motion.div>
   );
 };
@@ -115,10 +202,42 @@ export default function Testimonials() {
     <section id="pareri-oaspeti" className="relative py-20 bg-black overflow-hidden">
       {/* Nature-themed background decorations */}
       <div className="absolute inset-0 overflow-hidden opacity-20 z-10">
-        {/* Subtle green decorative elements */}
-        <div className="absolute top-1/4 right-1/4 w-32 h-32 rounded-full bg-[#2f6310]/5 blur-2xl"></div>
-        <div className="absolute bottom-1/3 left-1/3 w-40 h-40 rounded-full bg-[#3d7f15]/5 blur-2xl"></div>
+        {/* Enhanced decorative elements */}
+        <motion.div 
+          className="absolute top-1/4 right-1/4 w-32 h-32 rounded-full bg-[#2f6310]/5 blur-2xl"
+          animate={{
+            scale: [1, 1.3, 1],
+            opacity: [0.05, 0.15, 0.05]
+          }}
+          transition={{
+            duration: 6,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        />
+        <motion.div 
+          className="absolute bottom-1/3 left-1/3 w-40 h-40 rounded-full bg-[#3d7f15]/5 blur-2xl"
+          animate={{
+            scale: [1, 1.2, 1],
+            opacity: [0.05, 0.12, 0.05]
+          }}
+          transition={{
+            duration: 8,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 2
+          }}
+        />
       </div>
+
+      {/* Enhanced Particles Background */}
+      <ParticlesBackground 
+        theme="nature"
+        particleCount={30}
+        speed={0.4}
+        opacity={0.18}
+        className="absolute inset-0 z-10"
+      />
 
       {/* Layered Backgrounds */}
       <motion.div 
@@ -143,17 +262,48 @@ export default function Testimonials() {
           animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.4 }}
         >
-          {/* Decorative wood grain divider above title */}
-          <div className="w-24 h-2 mb-6 relative mx-auto">
+          {/* Enhanced Decorative wood grain divider above title */}
+          <motion.div 
+            className="w-24 h-2 mb-6 relative mx-auto"
+            initial={{ scaleX: 0 }}
+            animate={inView ? { scaleX: 1 } : { scaleX: 0 }}
+            transition={{ duration: 1, ease: "easeOut" }}
+          >
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#8B5A2B] to-transparent opacity-60 rounded-full"></div>
-          </div>
+            <motion.div 
+              className="absolute inset-0 bg-gradient-to-r from-transparent via-amber-200/20 to-transparent opacity-40 rounded-full"
+              animate={{
+                opacity: [0.4, 0.8, 0.4]
+              }}
+              transition={{
+                duration: 3,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+            />
+          </motion.div>
 
-          <h2 className="text-3xl md:text-4xl font-serif font-bold text-amber-100 mb-6 [text-shadow:_0_4px_24px_rgba(0,0,0,0.9)]">
+          <motion.h2 
+            className="text-3xl md:text-4xl font-serif font-bold text-amber-100 mb-6 [text-shadow:_0_4px_24px_rgba(0,0,0,0.9)]"
+            whileInView={{
+              scale: [0.95, 1, 0.95]
+            }}
+            transition={{
+              duration: 4,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+          >
             Părerile Oaspeților Noștri
-          </h2>
-          <p className="text-amber-50/90 max-w-2xl mx-auto [text-shadow:_0_2px_8px_rgba(0,0,0,0.8)]">
+          </motion.h2>
+          <motion.p 
+            className="text-amber-50/90 max-w-2xl mx-auto [text-shadow:_0_2px_8px_rgba(0,0,0,0.8)]"
+            initial={{ opacity: 0 }}
+            animate={inView ? { opacity: 1 } : { opacity: 0 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+          >
             Nu ne credeți pe cuvânt. Iată ce spun oaspeții noștri despre șederea lor.
-          </p>
+          </motion.p>
         </motion.div>
 
         <motion.div 
