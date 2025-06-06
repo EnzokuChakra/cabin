@@ -1,0 +1,57 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Admin {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  name      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model DatePrice {
+  id    Int      @id @default(autoincrement())
+  date  DateTime
+  price Float
+
+  @@unique([date])
+}
+
+model OccupiedDate {
+  id        Int      @id @default(autoincrement())
+  startDate DateTime
+  endDate   DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Photo {
+  id         Int          @id @default(autoincrement())
+  url        String
+  alt        String
+  category   PhotoCategory @relation(fields: [categoryId], references: [id])
+  categoryId Int
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+}
+
+model PhotoCategory {
+  id        Int      @id @default(autoincrement())
+  name      String
+  season    String   @default("Vara") // "Vara" or "Iarna"
+  photos    Photo[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([name, season])
+} 
